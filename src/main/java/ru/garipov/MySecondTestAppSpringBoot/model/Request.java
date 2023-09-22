@@ -23,7 +23,7 @@ public class Request {
     @Size(max = 32, message = "Уникальный идентификатор операции должен содержать не более 32 символов")
     private String operationUid;
 
-    private String systemName;
+    private Systems systemName;  // Изменили тип на перечисление Systems
 
     @NotBlank(message = "Время создания сообщения обязательно")
     private String systemTime;
@@ -39,4 +39,22 @@ public class Request {
     private int productCode;
 
     private int smsCode;
+
+    @Override
+    public String toString() {
+        return "{" +
+                "uid='" + uid + '\'' +
+                ", operationUid='" + operationUid + '\'' +
+                ", systemName='" + systemName + '\'' +  // Изменили тип на перечисление Systems
+                ", systemTime='" + systemTime + '\'' +
+                ", source='" + source + '\'' +
+                ", communicationId=" + communicationId +
+                ", templateId=" + templateId +
+                ", productCode=" + productCode +
+                ", smsCode=" + smsCode +
+                '}';
+    }
 }
+
+
+
