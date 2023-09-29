@@ -4,9 +4,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,8 +18,6 @@ import ru.garipov.MySecondTestAppSpringBoot.service.ModifyResponseService;
 import ru.garipov.MySecondTestAppSpringBoot.service.ValidateService;
 import ru.garipov.MySecondTestAppSpringBoot.util.DateTimeUtil;
 
-import java.beans.SimpleBeanInfo;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
@@ -88,7 +84,7 @@ public class MyController {
         Response response = Response.builder()
                 .code(Codes.FAILED)
                 .errorCode(ErrorCodes.VALIDATION_EXCEPTION)
-                .errorMessage(ErrorMessages.valueOf(ex.getMessage()))  // Используйте сообщение из исключения
+                .errorMessage(ErrorMessages.valueOf(ex.getMessage()))
                 .build();
         log.error("Handling ValidationFailedException: {}", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -99,7 +95,7 @@ public class MyController {
         Response response = Response.builder()
                 .code(Codes.FAILED)
                 .errorCode(ErrorCodes.UNSUPPORTED_EXCEPTION)
-                .errorMessage(ErrorMessages.valueOf(ex.getMessage()))  // Используйте сообщение из исключения
+                .errorMessage(ErrorMessages.valueOf(ex.getMessage()))
                 .build();
         log.error("Handling UnsupportedCodeException: {}", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
