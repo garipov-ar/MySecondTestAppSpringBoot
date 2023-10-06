@@ -36,7 +36,6 @@ public class MyController {
     @PostMapping(value = "/feedback")
     public ResponseEntity<Response> feedback(@Valid @RequestBody Request request,
                                              BindingResult bindingResult) throws UnsupportedCodeException {
-        long startTime = System.currentTimeMillis(); // Записываем время начала обработки запроса
 
         log.info("Received request: {}", request);
 
@@ -76,12 +75,6 @@ public class MyController {
 
         modifyResponseService.modify(response);
         log.info("Modified response: {}", response);
-
-        long endTime = System.currentTimeMillis(); // Записываем время завершения обработки запроса
-        long elapsedTime = endTime - startTime; // Вычисляем разницу во времени
-
-        log.info("Общее время обработки запроса в Сервисе 2: {} миллисекунд", elapsedTime);
-
 
         return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
     }
