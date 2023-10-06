@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.garipov.MySecondTestAppSpringBoot.exception.UnsupportedCodeException;
 import ru.garipov.MySecondTestAppSpringBoot.exception.ValidationFailedException;
 import ru.garipov.MySecondTestAppSpringBoot.model.*;
+import ru.garipov.MySecondTestAppSpringBoot.service.ModifyRequestService;
 import ru.garipov.MySecondTestAppSpringBoot.service.ModifyResponseService;
 import ru.garipov.MySecondTestAppSpringBoot.service.ValidateService;
 import ru.garipov.MySecondTestAppSpringBoot.util.DateTimeUtil;
@@ -25,26 +26,25 @@ import java.util.Date;
 public class MyController {
     private final ValidateService validateService;
     private final ModifyResponseService modifyResponseService;
-
+    private final ModifyRequestService modifyRequestService;
     @Autowired
     public MyController(ValidateService validateService,
-                        @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService) {
+                        @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService,
+                        ModifyRequestService modifyRequestService) {
         this.validateService = validateService;
         this.modifyResponseService = modifyResponseService;
+        this.modifyRequestService = modifyRequestService;
     }
 
     @PostMapping(value = "/feedback")
     public ResponseEntity<Response> feedback(@Valid @RequestBody Request request,
                                              BindingResult bindingResult) throws UnsupportedCodeException {
-
+        long startTime = System.currentTimeMillis(); // Записываем время начала обработки запроса
         log.info("Received request: {}", request);
-
-        // Проверяем поле uid на равенство "123" и выбрасываем исключение, если условие выполняется
-        if ("123".equals(request.getUid())) {
+        if ("123".equals(request.getUid())) {        // Проверяем поле uid на равенство "123" и выбрасываем исключение, если условие выполняется
             log.error("Received request with uid '123', throwing UnsupportedCodeException");
             throw new UnsupportedCodeException();
         }
-
         Response response = Response.builder()
                 .uid(request.getUid())
                 .operationUid(request.getOperationUid())
@@ -53,7 +53,6 @@ public class MyController {
                 .errorCode(ErrorCodes.EMPTY)
                 .errorMessage(ErrorMessages.EMPTY)
                 .build();
-
         log.info("Generated response: {}", response);
 
         try {
@@ -74,7 +73,14 @@ public class MyController {
         }
 
         modifyResponseService.modify(response);
+        modifyRequestService.modify(request);
         log.info("Modified response: {}", response);
+
+        long endTime = System.currentTimeMillis(); // Записываем время завершения обработки запроса
+        long elapsedTime = endTime - startTime; // Вычисляем разницу во времени
+
+        log.info("Общее время обработки запроса в Сервисе 1: {} миллисекунд", elapsedTime);
+
 
         return new ResponseEntity<>(modifyResponseService.modify(response), HttpStatus.OK);
     }
