@@ -23,7 +23,7 @@ public class Request {
     @Size(max = 32, message = "Уникальный идентификатор операции должен содержать не более 32 символов")
     private String operationUid;
 
-    private Systems systemName;  // Изменили тип на перечисление Systems
+    private String systemName;  // Изменили тип на перечисление Systems
 
     @NotBlank(message = "Время создания сообщения обязательно")
     private String systemTime;
