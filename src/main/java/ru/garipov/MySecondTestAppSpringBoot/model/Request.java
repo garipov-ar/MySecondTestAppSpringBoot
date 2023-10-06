@@ -29,6 +29,10 @@ public class Request {
     private String systemTime;
 
     private String source;
+    private Positions position;
+    private Double salary;
+    private Double bonus;
+    private Integer workDays;
 
     @Min(value = 1, message = "Уникальный идентификатор коммуникации должен быть не менее 1")
     @Max(value = 100000, message = "Уникальный идентификатор коммуникации должен быть не более 100000")
