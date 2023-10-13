@@ -17,16 +17,16 @@ public class Request {
 
     @NotBlank(message = "Уникальный идентификатор сообщения обязателен")
     @Size(max = 32, message = "Уникальный идентификатор сообщения должен содержать не более 32 символов")
-    private String uid;
+    private String uid;  // Уникальный идентификатор сообщения
 
     @NotBlank(message = "Уникальный идентификатор операции обязателен")
     @Size(max = 32, message = "Уникальный идентификатор операции должен содержать не более 32 символов")
-    private String operationUid;
+    private String operationUid;  // Уникальный идентификатор операции
 
     private String systemName;  // Изменили тип на перечисление Systems
 
     @NotBlank(message = "Время создания сообщения обязательно")
-    private String systemTime;
+    private String systemTime;  // Время создания сообщения
 
     private String source;
     private Positions position;
@@ -36,12 +36,10 @@ public class Request {
 
     @Min(value = 1, message = "Уникальный идентификатор коммуникации должен быть не менее 1")
     @Max(value = 100000, message = "Уникальный идентификатор коммуникации должен быть не более 100000")
-    private int communicationId;
+    private int communicationId;  // Уникальный идентификатор коммуникации
 
     private int templateId;
-
     private int productCode;
-
     private int smsCode;
 
     @Override
@@ -59,6 +57,3 @@ public class Request {
                 '}';
     }
 }
-
-
-
